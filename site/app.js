@@ -42,7 +42,8 @@ function inputCount() {
 function percent(value) {
   const p = value * 100;
   if (p === 0) return "0%";
-  if (p < 0.0001) return `${p.toExponential(1)}%`;
+  if (p >= 99.995) return "≈100%";
+  if (p < 0.001) return `${p.toExponential(1)}%`;
   if (p < 1) return `${p.toFixed(3)}%`;
   return `${p.toFixed(2)}%`;
 }
@@ -137,6 +138,13 @@ function clearOutput(message) {
   $("copy-batch").disabled = true;
 }
 
+function clearMath(message) {
+  for (const id of ["bits", "space", "risk"]) elements[id].textContent = "n/a";
+  elements.space.removeAttribute("title");
+  elements["risk-context"].textContent = message;
+  elements["length-chart"].replaceChildren();
+}
+
 function generate() {
   try {
     const length = Number(elements.length.value);
@@ -156,6 +164,7 @@ function generate() {
     status(`${currentBatch.length} ${currentBatch.length === 1 ? "candidate" : "candidates"} generated locally. Claim uniqueness in your database.`);
   } catch (error) {
     clearOutput("Check your settings to generate");
+    clearMath(error.message);
     status(error.message, true);
   }
 }
@@ -175,6 +184,7 @@ function sync({ regenerate = true } = {}) {
     } else if (regenerate) generate();
   } catch (error) {
     clearOutput("Check your settings to generate");
+    clearMath(error.message);
     status(error.message, true);
     updateRecommendation();
   }

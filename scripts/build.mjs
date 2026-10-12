@@ -1,5 +1,5 @@
 import { build } from "esbuild";
-import { mkdir, cp, chmod } from "node:fs/promises";
+import { mkdir, cp, chmod, readFile, writeFile } from "node:fs/promises";
 
 await mkdir("dist", { recursive: true });
 for (const format of ["esm", "cjs"]) {
@@ -29,5 +29,9 @@ await build({
   banner: { js: "/*! nanohash | MIT | See THIRD_PARTY_NOTICES.md */" }
 });
 await cp("types", "dist", { recursive: true });
+for (const name of ["index", "analysis", "allocation"]) {
+  const declaration = await readFile(`types/${name}.d.ts`, "utf8");
+  await writeFile(`dist/${name}.d.cts`, declaration.replaceAll('"./index.js"', '"./index.cjs"'));
+}
 await chmod("dist/cli.js", 0o755);
 console.log("Built ESM, CommonJS, CLI, source maps, and TypeScript declarations.");

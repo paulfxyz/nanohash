@@ -8,5 +8,5 @@
     "noEmit": true,
     "skipLibCheck": false
   },
-  "include": ["types.ts"]
+  "include": ["types.ts", "types.cts"]
 }

@@ -36,6 +36,8 @@ test("custom alphabets fail visibly and recover", async ({ page }) => {
   await page.getByTestId("select-alphabet").selectOption("custom");
   await page.getByTestId("input-characters").fill("aabc");
   await expect(page.getByTestId("status-message")).toContainText("duplicate");
+  await expect(page.getByTestId("text-risk")).toHaveText("n/a");
+  await expect(page.getByTestId("chart-lengths").locator(".chart-row")).toHaveCount(0);
   await expect(page.getByTestId("button-copy-code")).toBeDisabled();
   await page.getByTestId("input-characters").fill("abcd");
   await expect(page.getByTestId("text-code")).toHaveText(/^[abcd]{8}$/);
@@ -78,4 +80,12 @@ test("page fits its viewport and reports no application exceptions", async ({ pa
   expect(size.scroll).toBeLessThanOrEqual(size.width);
   expect(errors).toEqual([]);
   await expect(page.getByTestId("chart-lengths").locator(".chart-row")).toHaveCount(12);
+});
+
+test("small nonzero probabilities never display as zero", async ({ page }) => {
+  await page.getByTestId("input-length").focus();
+  await page.keyboard.press("ArrowRight");
+  await page.keyboard.press("ArrowRight");
+  await expect(page.getByTestId("text-risk")).toContainText("e-");
+  await expect(page.getByTestId("text-risk")).not.toContainText("0.000");
 });

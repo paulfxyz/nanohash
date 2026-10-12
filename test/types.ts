@@ -1,6 +1,6 @@
-import { createGenerator, nanohash, analyzeSpace, recommendLength, claimUnique, type Analysis } from "../dist/index.js";
-import { analyzeSpace as standaloneAnalysis } from "../dist/analysis.js";
-import { AllocationExhaustedError } from "../dist/allocation.js";
+import { createGenerator, nanohash, analyzeSpace, recommendLength, claimUnique, type Analysis } from "@paulfxyz/nanohash";
+import { analyzeSpace as standaloneAnalysis } from "@paulfxyz/nanohash/analysis";
+import { AllocationExhaustedError } from "@paulfxyz/nanohash/allocation";
 
 const generate = createGenerator({ preset: "dense", length: 12 });
 const code: string = generate();

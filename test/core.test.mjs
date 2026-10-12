@@ -64,7 +64,7 @@ test("invalid inputs are rejected rather than coerced or silently ignored", () =
   for (const characters of ["", "a", "aabc", "ab cd", "ab/c", "éabc", "ab#c", 42]) {
     assert.throws(() => createGenerator({ characters }), /characters/);
   }
-  for (const options of [null, [], "base36", { lenght: 8 }, { alphabet: "base37" }, { preset: "__proto__" }, { allowTiny: "yes" }]) {
+  for (const options of [null, [], "base36", { lenght: 8 }, { alphabet: "base37" }, { preset: "__proto__" }, { preset: ["link"] }, { allowTiny: "yes" }]) {
     assert.throws(() => createGenerator(options));
   }
   assert.throws(() => createGenerator({ alphabet: "base36", characters: "abc" }), /not both/);

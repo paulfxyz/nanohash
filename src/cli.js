@@ -53,6 +53,15 @@ try {
   } else {
     const command = positionals[0] ?? "generate";
     if (positionals.length > 1) throw new TypeError("Only one command is accepted.");
+    const flags = {
+      generate: ["alphabet", "characters", "length", "tiny", "count", "json"],
+      analyze: ["alphabet", "characters", "length", "generated", "active", "guesses", "json"],
+      recommend: ["alphabet", "characters", "generated", "risk", "min", "max", "json"]
+    };
+    if (!Object.hasOwn(flags, command)) throw new TypeError(`Unknown command: ${command}`);
+    for (const flag of Object.keys(values)) {
+      if (!flags[command].includes(flag)) throw new TypeError(`--${flag} is not valid for ${command}.`);
+    }
     const alphabet = { alphabet: values.alphabet, characters: values.characters };
     const common = { ...alphabet, length: values.length === undefined ? 8 : Number(values.length) };
     if (command === "generate") {

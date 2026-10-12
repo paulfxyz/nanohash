@@ -119,7 +119,7 @@ function resolveAlphabet({ alphabet, characters } = {}) {
 }
 function resolveGenerator(options = {}, enforceTiny = true) {
   objectOptions(options, ["preset", "alphabet", "characters", "length", "allowTiny"]);
-  if (options.preset !== void 0 && !Object.hasOwn(PRESETS, options.preset)) {
+  if (options.preset !== void 0 && (typeof options.preset !== "string" || !Object.hasOwn(PRESETS, options.preset))) {
     throw new TypeError(`Unknown preset: ${String(options.preset)}`);
   }
   if (options.preset !== void 0 && (options.alphabet !== void 0 || options.characters !== void 0)) {

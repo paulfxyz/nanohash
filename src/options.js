@@ -52,7 +52,7 @@ export function resolveAlphabet({ alphabet, characters } = {}) {
 
 export function resolveGenerator(options = {}, enforceTiny = true) {
   objectOptions(options, ["preset", "alphabet", "characters", "length", "allowTiny"]);
-  if (options.preset !== undefined && !Object.hasOwn(PRESETS, options.preset)) {
+  if (options.preset !== undefined && (typeof options.preset !== "string" || !Object.hasOwn(PRESETS, options.preset))) {
     throw new TypeError(`Unknown preset: ${String(options.preset)}`);
   }
   if (options.preset !== undefined && (options.alphabet !== undefined || options.characters !== undefined)) {

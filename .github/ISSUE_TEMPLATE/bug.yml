@@ -1,0 +1,29 @@
+name: Bug report
+description: Report a reproducible non-security bug.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please report security issues privately using the Security tab.
+        Do not include customer data, tokens, or private URLs.
+  - type: input
+    id: version
+    attributes:
+      label: Package version and runtime
+      placeholder: "0.1.0 / Node 24 / Chromium"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include inputs and the smallest runnable example.
+      render: javascript
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true

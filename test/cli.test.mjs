@@ -35,4 +35,6 @@ test("CLI rejects unknown commands and flags without a stack trace", () => {
   assert.doesNotMatch(result.stderr, /at file:/);
   assert.equal(run("--unknown").status, 1);
   assert.equal(run("generate", "extra").status, 1);
+  assert.equal(run("generate", "--generated", "10").status, 1);
+  assert.equal(run("recommend", "--length", "8").status, 1);
 });

@@ -8,19 +8,16 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
+      "require": { "types": "./dist/index.d.cts", "default": "./dist/index.cjs" }
     },
     "./analysis": {
-      "types": "./dist/analysis.d.ts",
-      "import": "./dist/analysis.js",
-      "require": "./dist/analysis.cjs"
+      "import": { "types": "./dist/analysis.d.ts", "default": "./dist/analysis.js" },
+      "require": { "types": "./dist/analysis.d.cts", "default": "./dist/analysis.cjs" }
     },
     "./allocation": {
-      "types": "./dist/allocation.d.ts",
-      "import": "./dist/allocation.js",
-      "require": "./dist/allocation.cjs"
+      "import": { "types": "./dist/allocation.d.ts", "default": "./dist/allocation.js" },
+      "require": { "types": "./dist/allocation.d.cts", "default": "./dist/allocation.cjs" }
     },
     "./package.json": "./package.json"
   },
@@ -40,6 +37,7 @@
     "test": "node --test test/*.test.mjs",
     "test:coverage": "node --test --experimental-test-coverage test/*.test.mjs",
     "test:types": "tsc --noEmit -p test/tsconfig.json",
+    "test:docs": "node scripts/check-docs.mjs",
     "test:e2e": "playwright test",
     "check": "npm run build && npm test && npm run test:types",
     "site:build": "node scripts/build-site.mjs",

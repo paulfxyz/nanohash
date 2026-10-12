@@ -1,0 +1,12 @@
+# nanohash visual identity
+
+The identity uses a compact, slanted hash mark and a quiet technical palette. It is designed to work in a README, a small favicon, and the actual developer playground.
+
+- **Mark:** Original geometric SVG in `icon.svg` and `logo.svg`.
+- **Palette:** Paper `#f5f5ed`, ink `#20291f`, and forest `#354b32`; semantic equivalents are defined as CSS tokens.
+- **Typography:** Satoshi for interface/display and IBM Plex Mono for codes and calculations.
+- **Voice:** Precise, practical, candid about limitations; no invented performance or security superlatives.
+- **Banner:** Rendered from `site/brand-card.html` by the asset script.
+- **Screenshots:** Captured from the working interface, not invented product mockups.
+
+Code is MIT licensed, and original project graphics are included under the same repository license. This does not grant rights to unrelated upstream trademarks or third-party font files.
