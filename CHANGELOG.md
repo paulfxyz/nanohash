@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+Documentation and repository presentation refresh; no runtime API changes. The existing v0.1.0 tag remains immutable.
+
+- **README:** Theme-aware logo and screenshots, flat status/compatibility badges, navigation, expanded use cases, integration diagram, documentation map, and FAQ.
+- **Size claims:** Reproducible import-specific browser bundle measurements, generated gzip badges, baseline comparisons, and a CI drift check.
+- **Metadata:** Expanded package keywords and a clearer project description without unverified size or security claims.
+
 ## 0.1.0
 
 Initial public GitHub release of nanohash. The scoped package identity is `@paulfxyz/nanohash`; npm publication is separate.

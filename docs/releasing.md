@@ -8,6 +8,7 @@ GitHub releases and npm publication are separate operations. Version 0.1.0 is de
 npm ci
 npm run check
 npm run pack:check
+npm run size:check
 npx playwright install chromium
 npm run test:e2e
 npm run site:build
@@ -15,6 +16,8 @@ git diff --exit-code -- dist
 ```
 
 Review the lockfile, bundled dependency license notices, API changes, and any files entering the public repository. Do not commit production link mappings, real customer data, tokens, local environment files, or private deployment details.
+
+Use Node 22 for the reference size check, and rerun `npm run size` if the build changed. Never carry an old size badge into a new release without measuring it.
 
 ## Documentation and visuals
 

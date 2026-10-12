@@ -16,6 +16,8 @@ npm run test:e2e
 
 Run `npm run build` after source or declaration changes and commit the resulting `dist/` files. Browser changes also need light/dark/mobile QA and updated screenshots when the visible interface changes.
 
+If bundle output changes, use Node 22 to run `npm run size` and commit the generated report, README tables, and size badges together. `npm run size:check` verifies that the published numbers match the current build.
+
 ## Contribution boundaries
 
 - **Randomness:** No `Math.random` fallback, home-grown RNG, hidden seed mode, or unsupported security claim.

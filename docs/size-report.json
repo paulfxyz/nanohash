@@ -1,0 +1,89 @@
+{
+  "package": "@paulfxyz/nanohash",
+  "packageVersion": "0.1.0",
+  "sourceSha256": "506f350d1c33f3a300859f8fd3483305549a9bef3eb3543453b2543da5d1bea0",
+  "toolchain": {
+    "nodeMajor": 22,
+    "esbuild": "0.28.2",
+    "nanoid": "6.0.2",
+    "platform": "browser",
+    "format": "esm",
+    "target": "es2022",
+    "minify": true,
+    "treeShaking": true,
+    "sourceMaps": false,
+    "legalComments": "none",
+    "gzipLevel": 9,
+    "brotliQuality": 11
+  },
+  "rawDistribution": {
+    "esmBytes": 11071,
+    "commonjsBytes": 12147
+  },
+  "exclusions": [
+    "This is browser JavaScript transfer size, not npm tarball or installed size.",
+    "CLI, declarations, source maps, docs, fonts, screenshots, and HTTP headers are excluded.",
+    "The bundled Nano ID code IS included where used; this is not wrapper-only sizing.",
+    "License comments are excluded from this benchmark; required notices remain in the distribution.",
+    "The upstream Nano ID reference is version 6.0.2, not the historical nanoid-cjs fork.",
+    "Compressed sizes are approximations of transfer cost; server and bundler settings may differ."
+  ],
+  "cases": [
+    {
+      "id": "generator",
+      "label": "Generator factory",
+      "entry": "export { createGenerator } from \"@paulfxyz/nanohash\";",
+      "minifiedBytes": 3171,
+      "gzipBytes": 1369,
+      "brotliBytes": 1216
+    },
+    {
+      "id": "shorthand",
+      "label": "nanohash() shorthand",
+      "entry": "export { nanohash } from \"@paulfxyz/nanohash\";",
+      "minifiedBytes": 3213,
+      "gzipBytes": 1385,
+      "brotliBytes": 1235
+    },
+    {
+      "id": "analysis",
+      "label": "Analysis entry point",
+      "entry": "export * from \"@paulfxyz/nanohash/analysis\";",
+      "minifiedBytes": 3681,
+      "gzipBytes": 1532,
+      "brotliBytes": 1331
+    },
+    {
+      "id": "allocation",
+      "label": "Allocation entry point",
+      "entry": "export * from \"@paulfxyz/nanohash/allocation\";",
+      "minifiedBytes": 2092,
+      "gzipBytes": 969,
+      "brotliBytes": 841
+    },
+    {
+      "id": "toolkit",
+      "label": "Complete browser API",
+      "entry": "export * from \"@paulfxyz/nanohash\";",
+      "minifiedBytes": 6821,
+      "gzipBytes": 2707,
+      "brotliBytes": 2384
+    },
+    {
+      "id": "nanoid-default",
+      "label": "Nano ID default primitive",
+      "entry": "export { nanoid } from \"nanoid\";",
+      "minifiedBytes": 198,
+      "gzipBytes": 208,
+      "brotliBytes": 157
+    },
+    {
+      "id": "nanoid-base36",
+      "label": "Nano ID Base36 / 8 primitive",
+      "entry": "import { customAlphabet } from \"nanoid\"; export const generate = customAlphabet(\"0123456789abcdefghijklmnopqrstuvwxyz\", 8);",
+      "minifiedBytes": 477,
+      "gzipBytes": 326,
+      "brotliBytes": 293
+    }
+  ]
+}

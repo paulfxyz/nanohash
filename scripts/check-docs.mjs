@@ -17,6 +17,8 @@ for (const file of await walk(process.cwd())) {
   const content = await readFile(file, "utf8");
   const links = [...content.matchAll(/!?\[[^\]]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g)].map(match => match[1]);
   links.push(...[...content.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)].map(match => match[1]));
+  links.push(...[...content.matchAll(/<source\b[^>]*\bsrcset="([^"]+)"/g)].map(match => match[1]));
+  links.push(...[...content.matchAll(/<a\b[^>]*\bhref="([^"]+)"/g)].map(match => match[1]));
   for (const link of links) {
     if (/^[a-z]+:/i.test(link) || link.startsWith("#")) continue;
     const target = resolve(dirname(file), decodeURIComponent(link.split("#")[0]));

@@ -1,7 +1,7 @@
 {
   "name": "@paulfxyz/nanohash",
   "version": "0.1.0",
-  "description": "Compact random IDs, sized honestly. Secure 4–15 character codes, collision analysis, and atomic allocation helpers.",
+  "description": "Compact, URL-safe random IDs for JavaScript. Secure 4–15 character generation, collision sizing, atomic allocation, ESM/CJS, TypeScript, and CLI.",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -30,7 +30,7 @@
   "repository": { "type": "git", "url": "git+https://github.com/paulfxyz/nanohash.git" },
   "bugs": { "url": "https://github.com/paulfxyz/nanohash/issues" },
   "homepage": "https://github.com/paulfxyz/nanohash#readme",
-  "keywords": ["nanoid", "short-id", "random", "url", "collision", "entropy", "typescript", "short-links"],
+  "keywords": ["nanohash", "nanoid", "id-generator", "random-id", "short-id", "url-safe", "short-links", "collision", "entropy", "typescript", "esm", "commonjs", "cli", "cryptographic-randomness"],
   "publishConfig": { "access": "public" },
   "scripts": {
     "build": "node scripts/build.mjs",
@@ -38,6 +38,8 @@
     "test:coverage": "node --test --experimental-test-coverage test/*.test.mjs",
     "test:types": "tsc --noEmit -p test/tsconfig.json",
     "test:docs": "node scripts/check-docs.mjs",
+    "size": "node scripts/measure-size.mjs",
+    "size:check": "node scripts/measure-size.mjs --check",
     "test:e2e": "playwright test",
     "check": "npm run build && npm test && npm run test:types",
     "site:build": "node scripts/build-site.mjs",
