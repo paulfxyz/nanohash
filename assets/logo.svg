@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 388 76" fill="none" role="img" aria-labelledby="title">
+  <title id="title">nanohash</title>
+  <g stroke="#354b32" stroke-width="6" stroke-linecap="square">
+    <path d="M29 16 21 56M47 16 39 56M14 29h42M11 43h42"/>
+  </g>
+  <text x="78" y="52" font-family="monospace" font-size="48" font-weight="700" letter-spacing="-3" fill="#20291f">nanohash</text>
+</svg>

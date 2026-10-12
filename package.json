@@ -1,0 +1,57 @@
+{
+  "name": "@paulfxyz/nanohash",
+  "version": "0.1.0",
+  "description": "Compact random IDs, sized honestly. Secure 4–15 character codes, collision analysis, and atomic allocation helpers.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./analysis": {
+      "types": "./dist/analysis.d.ts",
+      "import": "./dist/analysis.js",
+      "require": "./dist/analysis.cjs"
+    },
+    "./allocation": {
+      "types": "./dist/allocation.d.ts",
+      "import": "./dist/allocation.js",
+      "require": "./dist/allocation.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": { "nanohash": "./dist/cli.js" },
+  "files": ["dist", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md", "docs"],
+  "sideEffects": false,
+  "engines": { "node": ">=22" },
+  "license": "MIT",
+  "author": "Paul Fleury",
+  "repository": { "type": "git", "url": "git+https://github.com/paulfxyz/nanohash.git" },
+  "bugs": { "url": "https://github.com/paulfxyz/nanohash/issues" },
+  "homepage": "https://github.com/paulfxyz/nanohash#readme",
+  "keywords": ["nanoid", "short-id", "random", "url", "collision", "entropy", "typescript", "short-links"],
+  "publishConfig": { "access": "public" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/*.test.mjs",
+    "test:coverage": "node --test --experimental-test-coverage test/*.test.mjs",
+    "test:types": "tsc --noEmit -p test/tsconfig.json",
+    "test:e2e": "playwright test",
+    "check": "npm run build && npm test && npm run test:types",
+    "site:build": "node scripts/build-site.mjs",
+    "site:serve": "node scripts/serve-site.mjs",
+    "assets": "node scripts/render-assets.mjs",
+    "pack:check": "node scripts/pack-check.mjs",
+    "prepack": "npm run build"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.0",
+    "esbuild": "0.28.2",
+    "nanoid": "6.0.2",
+    "typescript": "7.0.2"
+  }
+}
