@@ -6,6 +6,8 @@ for (const file of ["index.html", "base.css", "style.css", "brand-card.html"]) {
   await cp(`site/${file}`, `.site/${file}`);
 }
 await cp("assets/icon.svg", ".site/assets/icon.svg");
+await cp("LICENSE", ".site/LICENSE.txt");
+await cp("THIRD_PARTY_NOTICES.md", ".site/THIRD_PARTY_NOTICES.txt");
 await build({
   entryPoints: ["site/app.js"],
   outfile: ".site/app.js",
@@ -14,6 +16,7 @@ await build({
   platform: "browser",
   target: "es2022",
   minify: true,
-  legalComments: "inline"
+  legalComments: "inline",
+  banner: { js: "/*! nanohash MIT; includes Nano ID MIT. See LICENSE.txt and THIRD_PARTY_NOTICES.txt. */" }
 });
 console.log("Built static playground in .site/");
