@@ -25,7 +25,7 @@ test("CLI analysis, recommendation, help, and version", () => {
   assert.equal(JSON.parse(run("recommend", "--generated", "100000", "--json").stdout).length, 11);
   assert.equal(run("recommend", "--generated", "100000", "--max", "4").status, 2);
   assert.match(run("--help").stdout, /not cryptographic hashes/);
-  assert.equal(run("--version").stdout.trim(), "0.1.0");
+  assert.equal(run("--version").stdout.trim(), "0.2.0");
 });
 
 test("CLI rejects unknown commands and flags without a stack trace", () => {

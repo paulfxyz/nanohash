@@ -7,11 +7,14 @@ The supported Node baseline is version 22. Browser generation requires a secure 
 | Entry | ESM | CommonJS | TypeScript |
 |---|---|---|---|
 | Main | `dist/index.js` | `dist/index.cjs` | `.d.ts` and `.d.cts` |
+| Lite | `dist/lite.js` | `dist/lite.cjs` | `.d.ts` and `.d.cts` |
 | Analysis | `dist/analysis.js` | `dist/analysis.cjs` | `.d.ts` and `.d.cts` |
 | Allocation | `dist/allocation.js` | `dist/allocation.cjs` | `.d.ts` and `.d.cts` |
 | CLI | `dist/cli.js` | Not applicable | Not applicable |
 
 Conditional exports select the correct runtime and declaration entry. The package includes committed builds and no install-time lifecycle script; consumers can install a tagged GitHub release without building development dependencies.
+
+The lite entry is independent of the main entry and is not re-exported from it. Adding lite does not change the existing full-toolkit APIs or add lite code to an existing main-package browser import.
 
 ## Nano ID and CommonJS
 
@@ -22,7 +25,7 @@ This is a packaging choice, not a forked cryptographic algorithm. Dependency upd
 ## Tested and prospective environments
 
 - **Node:** CI is configured for current even-numbered versions 22, 24, and 26, with ESM, CommonJS, CLI, clean tarball installation, and declarations tested.
-- **Chromium:** The playground is tested at desktop and mobile viewport sizes; mobile emulation is not a claim of physical-device certification.
+- **Chromium:** The playground and standalone lite ESM distribution are tested in desktop and mobile contexts; mobile emulation is not a claim of physical-device certification.
 - **Other browsers:** Modern browsers with required platform APIs are intended targets, but Safari/Firefox are not certified by the initial Chromium-only suite.
 - **Workers:** The browser build avoids Node imports and is intended for Web Crypto runtimes; validate the actual worker provider before production.
 - **React Native:** Not supported by default; no randomness polyfill is installed or silently assumed.

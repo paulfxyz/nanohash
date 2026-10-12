@@ -20,6 +20,12 @@ Generation at lengths four and five requires `allowTiny: true`. This is an ackno
 
 Even longer compact codes should not be the sole protection for private data. Enforce authorization at the referenced resource.
 
+## Lite entry point
+
+Lite uses Nano ID's secure Base36 generator and retains length checks, strict option validation, the explicit tiny acknowledgement, and fail-closed Web Crypto handling. It has no unsafe RNG override or fallback, and random-source failures propagate to the caller.
+
+Lite's smaller size comes from omitting configurable alphabets, presets, batching, and the analysis/allocation APIs. Tests cover every supported length, invalid inputs, missing/random-source failure paths, and rejection of out-of-range random bytes in the bundled Nano ID implementation.
+
 ## Probability output
 
 Analysis assumes independent uniform draws and does not model a capable adversary, leaked aliases, filtering, or a compromised runtime. Floating-point output and the birthday approximation are useful planning tools, not a cryptographic audit.

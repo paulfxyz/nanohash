@@ -1,6 +1,18 @@
 # API reference
 
-The primary entry point exports generation, sizing, and allocation helpers. Analysis and allocation also have separate entry points so callers do not need to import the random generator.
+The primary entry point exports generation, sizing, and allocation helpers. The separate `/lite` entry exports only a fixed-alphabet generator, while analysis and allocation have their own entry points as well.
+
+## Lite: `nanohash(length = 8, options = {})`
+
+Import this signature from `@paulfxyz/nanohash/lite`, not the root package. It returns one lowercase Base36 candidate of integer length 4–15, with `{ allowTiny: true }` required at lengths 4–5.
+
+```js
+import { nanohash } from "@paulfxyz/nanohash/lite";
+nanohash(8);
+nanohash(5, { allowTiny: true });
+```
+
+Only `allowTiny?: boolean` is accepted in the options object; unsupported options, invalid types, and invalid lengths throw. Lite requires secure Web Crypto, propagates random-source failures, and exports no presets, batch API, analysis, or allocation helpers; see the [complete lite reference](lite.md).
 
 ## `nanohash(length = 8)`
 

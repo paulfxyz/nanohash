@@ -35,7 +35,7 @@ jobs:
       - run: npm run test:docs
       - run: git diff --exit-code -- dist
       - run: npm run pack:check
-      - run: node examples/node.mjs && node examples/commonjs.cjs && node examples/allocation.mjs
+      - run: node examples/node.mjs && node examples/commonjs.cjs && node examples/allocation.mjs && node examples/lite.mjs
 
   playground:
     name: Playground / Chromium

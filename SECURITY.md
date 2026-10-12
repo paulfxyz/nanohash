@@ -1,6 +1,6 @@
 # Security policy
 
-nanohash is a compact public-identifier library, not an authorization or secret-token system. The current supported release line is 0.1.x.
+nanohash is a compact public-identifier library, not an authorization or secret-token system. The current supported release line is 0.2.x; please still report security issues observed in earlier releases.
 
 ## Report privately
 

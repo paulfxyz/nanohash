@@ -15,11 +15,12 @@ if (Number(process.versions.node.split(".")[0]) !== 22) {
 const pkg = JSON.parse(await readFile(resolve(root, "package.json"), "utf8"));
 const nanoid = JSON.parse(await readFile(resolve(root, "node_modules/nanoid/package.json"), "utf8"));
 const inputs = [
+  ["lite", "Lite generator", 'export { nanohash } from "@paulfxyz/nanohash/lite";'],
   ["generator", "Generator factory", 'export { createGenerator } from "@paulfxyz/nanohash";'],
   ["shorthand", "nanohash() shorthand", 'export { nanohash } from "@paulfxyz/nanohash";'],
   ["analysis", "Analysis entry point", 'export * from "@paulfxyz/nanohash/analysis";'],
   ["allocation", "Allocation entry point", 'export * from "@paulfxyz/nanohash/allocation";'],
-  ["toolkit", "Complete browser API", 'export * from "@paulfxyz/nanohash";'],
+  ["toolkit", "Full toolkit (root API)", 'export * from "@paulfxyz/nanohash";'],
   ["nanoid-default", "Nano ID default primitive", 'export { nanoid } from "nanoid";'],
   ["nanoid-base36", "Nano ID Base36 / 8 primitive", 'import { customAlphabet } from "nanoid"; export const generate = customAlphabet("0123456789abcdefghijklmnopqrstuvwxyz", 8);']
 ];
@@ -50,7 +51,7 @@ for (const [id, label, entry] of inputs) {
 }
 
 const fingerprint = createHash("sha256");
-for (const filename of ["dist/index.js", "dist/analysis.js", "dist/allocation.js"]) {
+for (const filename of ["dist/index.js", "dist/lite.js", "dist/analysis.js", "dist/allocation.js"]) {
   fingerprint.update(filename).update(await readFile(resolve(root, filename)));
 }
 const report = {
@@ -73,8 +74,11 @@ const report = {
   },
   rawDistribution: {
     esmBytes: (await readFile(resolve(root, "dist/index.js"))).byteLength,
-    commonjsBytes: (await readFile(resolve(root, "dist/index.cjs"))).byteLength
+    commonjsBytes: (await readFile(resolve(root, "dist/index.cjs"))).byteLength,
+    liteEsmBytes: (await readFile(resolve(root, "dist/lite.js"))).byteLength,
+    liteCommonjsBytes: (await readFile(resolve(root, "dist/lite.cjs"))).byteLength
   },
+  budgets: { liteGzipBytes: 750 },
   exclusions: [
     "This is browser JavaScript transfer size, not npm tarball or installed size.",
     "CLI, declarations, source maps, docs, fonts, screenshots, and HTTP headers are excluded.",
@@ -87,18 +91,23 @@ const report = {
 };
 
 const n = value => value.toLocaleString("en-US");
+const lite = cases.find(item => item.id === "lite");
 const generator = cases.find(item => item.id === "generator");
 const toolkit = cases.find(item => item.id === "toolkit");
+if (lite.gzipBytes > report.budgets.liteGzipBytes) {
+  throw new Error(`Lite exceeds its ${report.budgets.liteGzipBytes}-byte min+gzip budget: ${lite.gzipBytes} bytes.`);
+}
 const badge = (label, bytes) => `  <a href="docs/bundle-size.md"><img alt="${label}: ${n(bytes)} bytes, minified and gzipped" src="https://img.shields.io/badge/${encodeURIComponent(label).replaceAll("-", "--")}-${encodeURIComponent(`${n(bytes)} B`)}-354b32?style=flat-square"></a>`;
 const badges = [
   '<p align="center">',
+  badge("lite min+gzip", lite.gzipBytes),
   badge("generator min+gzip", generator.gzipBytes),
   badge("browser API min+gzip", toolkit.gzipBytes),
   '  <a href="THIRD_PARTY_NOTICES.md"><img alt="Zero runtime npm dependencies; Nano ID code is bundled" src="https://img.shields.io/badge/runtime_npm_deps-0-5d7253?style=flat-square"></a>',
   '  <a href="#presets-and-alphabets"><img alt="Code lengths 4 to 15" src="https://img.shields.io/badge/code_length-4%E2%80%9315-5d7253?style=flat-square"></a>',
   "</p>"
 ].join("\n");
-const summary = `The generator factory is **${n(generator.gzipBytes)} bytes minified + gzip** when imported on its own; all browser API exports together are **${n(toolkit.gzipBytes)} bytes minified + gzip**. These measurements include the bundled Nano ID implementation, not just a wrapper.`;
+const summary = `The separate lite generator is **${n(lite.gzipBytes)} bytes minified + gzip**; the full generator factory is **${n(generator.gzipBytes)} bytes**, and the full toolkit's root browser API is **${n(toolkit.gzipBytes)} bytes**, under the same minified + gzip settings. These measurements include the bundled Nano ID implementation, not just a wrapper.`;
 const table = [
   "| Import surface | Minified JS | Minified + gzip | Minified + Brotli |",
   "|---|---:|---:|---:|",
@@ -109,7 +118,7 @@ const table = [
 const comparison = [
   "| Same build settings, different scope | Minified JS | Minified + gzip |",
   "|---|---:|---:|",
-  ...[cases.find(item => item.id === "nanoid-default"), cases.find(item => item.id === "nanoid-base36"), generator, toolkit].map(item =>
+  ...[cases.find(item => item.id === "nanoid-default"), cases.find(item => item.id === "nanoid-base36"), lite, generator, toolkit].map(item =>
     `| ${item.label} | ${n(item.minifiedBytes)} B | ${n(item.gzipBytes)} B |`
   )
 ].join("\n");
@@ -131,6 +140,9 @@ await replaceBlock("README.md", "size-table", table);
 await replaceBlock("docs/bundle-size.md", "size-summary", summary);
 await replaceBlock("docs/bundle-size.md", "size-table", table);
 await replaceBlock("docs/bundle-size.md", "baseline-table", comparison);
+await replaceBlock("docs/lite.md", "lite-size",
+  `The lite-only browser bundle is **${n(lite.minifiedBytes)} bytes minified**, **${n(lite.gzipBytes)} bytes minified + gzip**, and **${n(lite.brotliBytes)} bytes minified + Brotli**. CI enforces a **${n(report.budgets.liteGzipBytes)}-byte minified + gzip ceiling** and fails if the implementation exceeds it.`
+);
 
 const stale = [];
 for (const [filename, content] of pending) {

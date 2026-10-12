@@ -1,6 +1,7 @@
 import { createGenerator, nanohash, analyzeSpace, recommendLength, claimUnique, type Analysis } from "@paulfxyz/nanohash";
 import { analyzeSpace as standaloneAnalysis } from "@paulfxyz/nanohash/analysis";
 import { AllocationExhaustedError } from "@paulfxyz/nanohash/allocation";
+import { nanohash as lite, type LiteOptions } from "@paulfxyz/nanohash/lite";
 
 const generate = createGenerator({ preset: "dense", length: 12 });
 const code: string = generate();
@@ -21,6 +22,10 @@ const record = await claimUnique({
 const id: string = record.value.id;
 const attempts: number = new AllocationExhaustedError(5).attempts;
 void [code, batch, analysis, id, attempts, nanohash(), standaloneAnalysis()];
+const tinyOptions: LiteOptions = { allowTiny: true };
+const liteCode: string = lite();
+const tinyCode: string = lite(5, tinyOptions);
+void [liteCode, tinyCode];
 
 // @ts-expect-error Alphabet names are explicit, not guessed.
 createGenerator({ alphabet: "base37" });
@@ -30,3 +35,9 @@ createGenerator({ alphabet: "base36", characters: "abcdef" });
 createGenerator({ preset: "link", alphabet: "base62" });
 // @ts-expect-error Claim results are tagged, never booleans.
 claimUnique({ generate, claim: async () => true });
+// @ts-expect-error Lite has a fixed alphabet.
+lite(8, { alphabet: "url64" });
+// @ts-expect-error The tiny acknowledgement must be a boolean.
+lite(5, { allowTiny: "yes" });
+// @ts-expect-error Lite does not coerce string lengths.
+lite("8");

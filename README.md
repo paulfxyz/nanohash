@@ -24,6 +24,7 @@
 
 <!-- nanohash:size-badges:start -->
 <p align="center">
+  <a href="docs/bundle-size.md"><img alt="lite min+gzip: 579 bytes, minified and gzipped" src="https://img.shields.io/badge/lite%20min%2Bgzip-579%20B-354b32?style=flat-square"></a>
   <a href="docs/bundle-size.md"><img alt="generator min+gzip: 1,369 bytes, minified and gzipped" src="https://img.shields.io/badge/generator%20min%2Bgzip-1%2C369%20B-354b32?style=flat-square"></a>
   <a href="docs/bundle-size.md"><img alt="browser API min+gzip: 2,707 bytes, minified and gzipped" src="https://img.shields.io/badge/browser%20API%20min%2Bgzip-2%2C707%20B-354b32?style=flat-square"></a>
   <a href="THIRD_PARTY_NOTICES.md"><img alt="Zero runtime npm dependencies; Nano ID code is bundled" src="https://img.shields.io/badge/runtime_npm_deps-0-5d7253?style=flat-square"></a>
@@ -33,6 +34,7 @@
 
 <p align="center">
   <a href="#install">Quick start</a> ·
+  <a href="#lite-entry-point">Lite</a> ·
   <a href="#bundle-size">Measured size</a> ·
   <a href="#playground-and-screenshots">Playground</a> ·
   <a href="docs/api.md">API reference</a> ·
@@ -54,7 +56,7 @@ Despite the name, it is **not a cryptographic hash function**. It creates random
 | Alphabets | Base36, Base62, URL64, Human32, or distinct custom URL-safe characters |
 | Defaults | 8 lowercase alphanumeric characters |
 | Randomness | Nano ID-backed secure generation; no `Math.random` fallback |
-| Distribution | ESM, CommonJS, TypeScript declarations, and a CLI |
+| Distribution | Full and `/lite` ESM/CJS entries, TypeScript declarations, and a CLI |
 | Sizing | Exact character-space counts and clearly labelled probability estimates |
 | Allocation | Storage-agnostic claims, reserved-code checks, and bounded conflict retries |
 | Runtime dependencies | No runtime npm dependencies; Nano ID code is bundled and attributed |
@@ -76,7 +78,7 @@ If you only want the smallest possible random-ID primitive, use Nano ID directly
 The package identity is `@paulfxyz/nanohash`, and the current release is installed from GitHub. The [unscoped npm package `nanohash`](https://www.npmjs.com/package/nanohash) is an unrelated project; do not install it expecting this library.
 
 ```sh
-npm install github:paulfxyz/nanohash#v0.1.0
+npm install github:paulfxyz/nanohash#v0.2.0
 ```
 
 ### JavaScript and TypeScript
@@ -108,25 +110,53 @@ console.log(nanohash());
 
 Generation requires secure Web Crypto and fails explicitly when it is unavailable. Read the [compatibility matrix](docs/compatibility.md) before adopting an untested browser, worker provider, or mobile runtime.
 
+## Lite entry point
+
+Only need a lowercase public ID? Import `@paulfxyz/nanohash/lite` to get a standalone generator without the full toolkit's presets, batch API, sizing functions, or allocation helpers.
+
+```js
+import { nanohash } from "@paulfxyz/nanohash/lite";
+
+nanohash();                          // 8 lowercase Base36 characters
+nanohash(12);                        // 12 characters
+nanohash(5, { allowTiny: true });     // explicit tiny public-code opt-in
+```
+
+```js
+const { nanohash } = require("@paulfxyz/nanohash/lite");
+console.log(nanohash(10));
+```
+
+Lite retains secure Nano ID randomness, integer length validation, strict option checks, and fail-closed Web Crypto handling. Its fixed alphabet is `0123456789abcdefghijklmnopqrstuvwxyz`; the only option is `{ allowTiny?: boolean }`.
+
+| Choose lite when | Choose the full toolkit when |
+|---|---|
+| You want one Base36 candidate per call | You need presets, custom alphabets, or batching |
+| You only need the length and tiny-code acknowledgement | You need format validation, sizing, or recommendations |
+| A separately measured small browser import matters | You want the additional application helpers |
+
+The two-argument signature above belongs to `/lite`, not the root `nanohash(length)` shorthand. The existing root API is unchanged; read the [lite reference](docs/lite.md) for its limits, error behavior, and standalone-browser example.
+
 ## Bundle size
 
 <!-- nanohash:size-summary:start -->
-The generator factory is **1,369 bytes minified + gzip** when imported on its own; all browser API exports together are **2,707 bytes minified + gzip**. These measurements include the bundled Nano ID implementation, not just a wrapper.
+The separate lite generator is **579 bytes minified + gzip**; the full generator factory is **1,369 bytes**, and the full toolkit's root browser API is **2,707 bytes**, under the same minified + gzip settings. These measurements include the bundled Nano ID implementation, not just a wrapper.
 <!-- nanohash:size-summary:end -->
 
 <!-- nanohash:size-table:start -->
 | Import surface | Minified JS | Minified + gzip | Minified + Brotli |
 |---|---:|---:|---:|
+| Lite generator | 949 B | 579 B | 509 B |
 | Generator factory | 3,171 B | 1,369 B | 1,216 B |
 | nanohash() shorthand | 3,213 B | 1,385 B | 1,235 B |
 | Analysis entry point | 3,681 B | 1,532 B | 1,331 B |
 | Allocation entry point | 2,092 B | 969 B | 841 B |
-| Complete browser API | 6,821 B | 2,707 B | 2,384 B |
+| Full toolkit (root API) | 6,821 B | 2,707 B | 2,384 B |
 <!-- nanohash:size-table:end -->
 
 These are browser ESM bundle measurements using esbuild, tree-shaking, and the compression settings documented in the [reproducible size report](docs/bundle-size.md). They are not the size of the repository, npm archive, installed package, CLI, screenshots, or documentation.
 
-We do not claim a 130-byte toolkit: the [Nano ID CJS README's 130-byte figure](https://github.com/zlocate/nanoid-cjs) is a minified-and-gzipped generator claim, while nanohash intentionally supplies more functionality. Size badges and this table are generated from the current build, and CI checks that they have not drifted.
+We do not claim a 130-byte toolkit: the [Nano ID CJS README's 130-byte figure](https://github.com/zlocate/nanoid-cjs) is a minified-and-gzipped generator claim, while nanohash intentionally supplies more functionality. Lite is measured separately, and CI checks both the published figures and its 750-byte minified-plus-gzip ceiling.
 
 ## Presets and alphabets
 
@@ -292,6 +322,7 @@ The project has automated tests, not an independent security audit. Read the [se
 | Guide | What you will find |
 |---|---|
 | [API reference](docs/api.md) | Every export, option, return value, and error boundary |
+| [Lite reference](docs/lite.md) | The standalone Base36 generator, size limit, and omitted features |
 | [Bundle size](docs/bundle-size.md) | Reproducible byte counts, compression settings, and fair comparison boundaries |
 | [Sizing guide](docs/sizing.md) | Random bits, birthday approximations, guessing, and namespace occupancy |
 | [Integration guide](docs/integrations.md) | Atomic storage, short-link routing, React, API, and MCP |
@@ -370,7 +401,7 @@ The document still needs authorization. Code length and low collision risk do no
 
 ## Roadmap and contribution
 
-Useful next steps include additional independently verified runtimes, a second real-world storage adapter, and improvements supported by actual consumer feedback. None is advertised as already shipped, and an ultra-minimal generator entry point would be a separate, explicitly scoped feature rather than a smaller badge for this toolkit.
+The separate lite entry point ships in v0.2.0, with its own tests, declarations, and size check. Useful next steps include additional independently verified runtimes, a second real-world storage adapter, and improvements supported by actual consumer feedback.
 
 Open a [bug report](https://github.com/paulfxyz/nanohash/issues/new/choose) or follow the [contribution guide](CONTRIBUTING.md). Changes that improve clarity, compatibility, measurement accuracy, or application safety are especially welcome.
 

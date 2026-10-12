@@ -4,7 +4,7 @@ import { mkdir, cp, chmod, readFile, writeFile } from "node:fs/promises";
 await mkdir("dist", { recursive: true });
 for (const format of ["esm", "cjs"]) {
   await build({
-    entryPoints: ["src/index.js", "src/analysis.js", "src/allocation.js"],
+    entryPoints: ["src/index.js", "src/lite.js", "src/analysis.js", "src/allocation.js"],
     bundle: true,
     outdir: "dist",
     format,
@@ -29,7 +29,7 @@ await build({
   banner: { js: "/*! nanohash | MIT | See THIRD_PARTY_NOTICES.md */" }
 });
 await cp("types", "dist", { recursive: true });
-for (const name of ["index", "analysis", "allocation"]) {
+for (const name of ["index", "lite", "analysis", "allocation"]) {
   const declaration = await readFile(`types/${name}.d.ts`, "utf8");
   await writeFile(`dist/${name}.d.cts`, declaration.replaceAll('"./index.js"', '"./index.cjs"'));
 }

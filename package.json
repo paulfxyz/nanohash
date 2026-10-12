@@ -1,6 +1,6 @@
 {
   "name": "@paulfxyz/nanohash",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Compact, URL-safe random IDs for JavaScript. Secure 4–15 character generation, collision sizing, atomic allocation, ESM/CJS, TypeScript, and CLI.",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -10,6 +10,10 @@
     ".": {
       "import": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
       "require": { "types": "./dist/index.d.cts", "default": "./dist/index.cjs" }
+    },
+    "./lite": {
+      "import": { "types": "./dist/lite.d.ts", "default": "./dist/lite.js" },
+      "require": { "types": "./dist/lite.d.cts", "default": "./dist/lite.cjs" }
     },
     "./analysis": {
       "import": { "types": "./dist/analysis.d.ts", "default": "./dist/analysis.js" },

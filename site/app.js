@@ -233,7 +233,7 @@ async function copy(text, label) {
 $("copy-code").addEventListener("click", () => copy(currentBatch[0], "Code"));
 $("copy-batch").addEventListener("click", () => copy(currentBatch.join("\n"), "Batch"));
 $("copy-install").addEventListener("click", async () => {
-  await copy("npm install github:paulfxyz/nanohash#v0.1.0", "Install command");
+  await copy("npm install github:paulfxyz/nanohash#v0.2.0", "Install command");
   $("copy-install").textContent = elements.status.textContent.includes("copied.") ? "Copied" : "Select command";
 });
 sync();

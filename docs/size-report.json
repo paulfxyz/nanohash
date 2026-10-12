@@ -1,7 +1,7 @@
 {
   "package": "@paulfxyz/nanohash",
-  "packageVersion": "0.1.0",
-  "sourceSha256": "506f350d1c33f3a300859f8fd3483305549a9bef3eb3543453b2543da5d1bea0",
+  "packageVersion": "0.2.0",
+  "sourceSha256": "24a9845a5dc56bb01b406bf85fc33618d6410694210eb65eaa285dd132c20ba8",
   "toolchain": {
     "nodeMajor": 22,
     "esbuild": "0.28.2",
@@ -18,7 +18,12 @@
   },
   "rawDistribution": {
     "esmBytes": 11071,
-    "commonjsBytes": 12147
+    "commonjsBytes": 12147,
+    "liteEsmBytes": 1987,
+    "liteCommonjsBytes": 2890
+  },
+  "budgets": {
+    "liteGzipBytes": 750
   },
   "exclusions": [
     "This is browser JavaScript transfer size, not npm tarball or installed size.",
@@ -29,6 +34,14 @@
     "Compressed sizes are approximations of transfer cost; server and bundler settings may differ."
   ],
   "cases": [
+    {
+      "id": "lite",
+      "label": "Lite generator",
+      "entry": "export { nanohash } from \"@paulfxyz/nanohash/lite\";",
+      "minifiedBytes": 949,
+      "gzipBytes": 579,
+      "brotliBytes": 509
+    },
     {
       "id": "generator",
       "label": "Generator factory",
@@ -63,7 +76,7 @@
     },
     {
       "id": "toolkit",
-      "label": "Complete browser API",
+      "label": "Full toolkit (root API)",
       "entry": "export * from \"@paulfxyz/nanohash\";",
       "minifiedBytes": 6821,
       "gzipBytes": 2707,

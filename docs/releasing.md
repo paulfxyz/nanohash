@@ -1,6 +1,6 @@
 # Release procedure
 
-GitHub releases and npm publication are separate operations. Version 0.1.0 is designed for a public GitHub release; the unscoped npm name `nanohash` must not be used for this package.
+GitHub releases and npm publication are separate operations. The current package identity is `@paulfxyz/nanohash`; the unscoped npm name `nanohash` must not be used for this project.
 
 ## Before tagging
 
@@ -33,14 +33,18 @@ Inspect light/dark/mobile screenshots before committing them. Confirm runtime su
 
 ## GitHub release
 
-Tag an approved commit and attach the tarball produced by `npm pack`. Do not move an already published version tag to different code; issue a new patch release for corrections.
+Tag an approved commit and publish release notes for that exact version. GitHub's source archives contain the committed builds; attaching an additional `npm pack` tarball is optional and depends on the publishing channel supporting binary uploads.
+
+Do not move an already published version tag to different code. Issue a new version for corrections, and synchronize the package version, README, playground install command, and repository description.
 
 ```sh
-git tag v0.1.0
-git push origin main v0.1.0
-gh release create v0.1.0 paulfxyz-nanohash-0.1.0.tgz \
+VERSION=$(node -p "require('./package.json').version")
+git tag -a "v$VERSION" -m "nanohash v$VERSION"
+git push origin main "v$VERSION"
+gh release create "v$VERSION" \
   --repo paulfxyz/nanohash \
-  --title "nanohash v0.1.0" \
+  --verify-tag \
+  --title "nanohash v$VERSION" \
   --notes-file CHANGELOG.md
 ```
 

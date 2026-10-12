@@ -10,6 +10,13 @@ This checklist connects implemented behavior to test coverage and screenshot evi
 - **Probability model:** Exact BigInt spaces, known birthday examples, separate guessing estimates, zero counts, full occupancy, extreme counts, and infeasible length budgets.
 - **Allocation:** Reserved values, forced collisions, bounded attempts, concurrent claims, propagated storage failures, invalid adapters, and cancellation before/after commit.
 - **Distribution:** ESM, CommonJS, subpaths, CLI, clean tarball installation, and both TypeScript module formats.
+- **Lite:** Its separate ESM/CJS exports and declarations, every supported length, explicit tiny opt-in, invalid options, missing/failing Web Crypto, and absence of full-toolkit helpers in the bundle.
+- **Lite randomness boundary:** A deterministic test verifies Nano ID's rejection of unusable Base36 bytes; this is a regression check, not a cryptographic audit.
+- **Size ceiling:** Generated metrics and badges match the build, and lite stays within its 750-byte minified-plus-gzip limit.
+
+## Standalone lite browser checks
+
+Desktop and mobile Chromium import the actual standalone ESM file, not a test reimplementation. Checks cover format/length, tiny gating, invalid options, and failure when Web Crypto is removed from the isolated test context.
 
 ## Playground interaction checks
 
